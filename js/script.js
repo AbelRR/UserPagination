@@ -55,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function getPageList(pageNum, arr) {
     let start = (pageNum * 10) - 10;
+    // per each page, display range from: pageNum*10 - 10 ==> pageNum*10 - 1
+      // eg. pageNum = 4; 4*10-10 = 30 ===> 4*10-1 = 39 || pageNum = 4, [30 => 39]
 
     for (let i = 0; i < arr.length; i++){
       const studentListItem = arr[i];
@@ -70,10 +72,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function showPage(pageNum = 1, sublist = studentListCopy) {
     // filter students into sublist based on searchQuery
     let newList = sublist.filter(student => {
-      const name = student.querySelector('li h3').textContent;
-      const email = student.querySelector('li .email').textContent;
-      // keep students whose name||email includes search query
-      if (name.includes(searchQuery) || email.includes(searchQuery)){
+      const studentName = student.querySelector('li h3').textContent;
+      const studentEmail = student.querySelector('li .email').textContent;
+      // keep students whose studentName||studentEmail includes search query
+      if (studentName.includes(searchQuery) || studentEmail.includes(searchQuery)){
         return student;
       }
     })
@@ -101,8 +103,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       appendPageLinks(0);
     }
   }
-
-
+  // initial call: show the first page of students
   showPage(1);
 
   function handleSearchButton(e) {
@@ -110,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       const button = e.target
       const searchInputValue = button.previousElementSibling.value;
       searchQuery = searchInputValue
+      // show results with new searchQuery
       showPage()
     };
   }
