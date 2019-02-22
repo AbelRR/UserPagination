@@ -71,21 +71,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // filter students into sublist based on searchQuery
     let newList = sublist.filter(student => {
       const name = student.querySelector('li h3').textContent;
-
-      if (name.includes(searchQuery)){
+      const email = student.querySelector('li .email').textContent;
+      // keep students whose name||email includes search query
+      if (name.includes(searchQuery) || email.includes(searchQuery)){
         return student;
       }
     })
 
     studentList.innerHTML = '';
     if (newList.length > 0) {
+      // if list is not empty
       newList.forEach(student => studentList.appendChild(student));
-
+      // paginate search filtered list
       getPageList(pageNum, studentList.children);
       studentSubList = studentListItems;
       numOfPages = Math.ceil(studentSubList.length / 10);
       appendPageLinks(numOfPages);
     } else {
+      // if list is empty display an on-screen notification to update search query
       const emptyListItem = document.createElement("li");
       emptyListItem.innerHTML = `
       <li class="empty-list">
